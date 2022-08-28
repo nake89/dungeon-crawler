@@ -3,6 +3,7 @@
 
 #define DELAY 30000
 
+int kbhit(void);
 int main(int argc, char *argv[]) {
  int x = 0, y = 0;
  int max_y = 0, max_x = 0;
@@ -22,7 +23,10 @@ int main(int argc, char *argv[]) {
    clear();
    mvprintw(y, x, "o");
    refresh();
-
+   if (kbhit()) {
+            printw("Key pressed! It was: %d\n", getch());
+            refresh();
+        }
    usleep(DELAY);
 
    next_x = x + direction;
@@ -42,4 +46,16 @@ int main(int argc, char *argv[]) {
  }
 
  endwin();
+}
+
+int kbhit(void)
+{
+    int ch = getch();
+
+    if (ch != ERR) {
+        ungetch(ch);
+        return 1;
+    } else {
+        return 0;
+    }
 }
